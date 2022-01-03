@@ -13,6 +13,7 @@ import json
 import PySimpleGUI as sg
 import datetime as dt
 import os
+import sys
 import time
 
 channel_id = ''
@@ -36,7 +37,7 @@ while True:
         time.sleep(1)
 
 # Wijzig werkmap
-os.chdir('/home/pi/sbsc/')
+os.chdir(sys.path[0])
 
 # Haal lijst met video ids van geplande uitzendingen op
 upcoming_broadcasts_list_url = 'https://youtube.googleapis.com/youtube/v3/search?part=id&channelId={}&eventType=upcoming&maxResults=1000&order=date&type=video&key={}'.format(channel_id, api_key)
