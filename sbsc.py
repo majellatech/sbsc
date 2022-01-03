@@ -68,7 +68,7 @@ start_time_ok = now - margin <= first_upcoming_broadcast_start_time <= now + mar
 bg_color = 'green' if start_time_ok else 'red'
 layout = [
     [sg.Text(key='expand_top', background_color = bg_color)],
-    [sg.Image('checkmark.png' if start_time_ok else 'warning.gif', background_color = bg_color, key = 'image')],
+    [sg.Image('images/checkmark.png' if start_time_ok else 'images/warning.gif', background_color = bg_color, key = 'image')],
     [sg.Text('Eerstvolgende geplande uitzending: {}'.format(first_upcoming_broadcast_name), background_color = bg_color, key = 'text1', font = ('normal', 25), auto_size_text = True)],
     [sg.Text('Geplande uitzendtijd: {}'.format(first_upcoming_broadcast_start_time.astimezone().strftime('%c')), background_color = bg_color, key = 'text2', font = ('normal', 25))],
     [sg.Text('Huidig tijdstip: {}'.format(dt.datetime.now().strftime('%X')), background_color = bg_color, font = ('any', '25'))],
@@ -90,7 +90,7 @@ window.maximize()
 while True:
     event, values = window.read(timeout=500)
     if not start_time_ok:
-        window['image'].update_animation('warning.gif')
+        window['image'].update_animation('images/warning.gif')
     if event == 'Sluiten':
         break
 window.close()
