@@ -1,0 +1,12 @@
+{
+  "sbsc configuration": {
+    "channel_id": "UCZW3ip0RVJFb5M47gqealag",
+    "api_key": "secret",
+    "resizable_screen": "True",
+    "timeout": 500,
+    "time_margin": 60,
+    "refresh_interval": 1,
+    "google_apis_videos_url": "https://youtube.googleapis.com/youtube/v3/videos",
+    "google_apis_search_url": "https://youtube.googleapis.com/youtube/v3/search"
+  }
+}
