@@ -1,7 +1,7 @@
 {
   "sbsc configuration": {
-    "channel_id": "UCZW3ip0RVJFb5M47gqealag",
-    "api_key": "secret",
+    "channel_id": "",
+    "api_key": "",
     "resizable_screen": "True",
     "timeout": 500,
     "time_margin": 60,
