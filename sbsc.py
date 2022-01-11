@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
-""" a small application to check if the start time if the  current time somewhat matches
-    the next planned broadcast time.
-    if this is not the case, usually there was a missed a broadcast or someone accidentally started one twice
+""" A small application to check if the start time of the current time somewhat matches the next
+    planned broadcast time.
+
+    If this is not the case, usually there was a missed a broadcast or someone accidentally started
+    one twice.
 """
 
 # TODO: handle cases where there were no planned broadcasts in the first place
@@ -26,7 +28,7 @@ api_key = conf.get("api_key")
 resizable_screen = conf.get("resizable_screen")
 time_margin = conf.get("time_margin")
 
-# wait until the system time is synced via NTP
+# Wait until the system time is synced via NTP
 while True:
     ntp_synchronisatie_voltooid = os.system('timedatectl | grep System\ clock\ synchronized | grep -q yes') == 0
     if ntp_synchronisatie_voltooid:
@@ -45,33 +47,33 @@ while True:
 
 os.chdir(sys.path[0])
 
-# fetch a list of video ids of planned broadcasts
+# Fetch a list of video ids of planned broadcasts
 upcoming_broadcasts_list_url = 'https://youtube.googleapis.com/youtube/v3/search?part=id&channelId={}&eventType=upcoming&maxResults=1000&order=date&type=video&key={}'.format(channel_id, api_key)
 upcoming_broadcasts_list     = json.load(urllib.request.urlopen(upcoming_broadcasts_list_url))
 upcoming_broadcast_ids       = video_ids = ','.join(list(map(lambda x: x['id']['videoId'], upcoming_broadcasts_list['items'])))
 
-# determine next planned broadcast
+# Determine next planned broadcast
 upcoming_broadcasts_url    = 'https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id={}&key={}'.format(upcoming_broadcast_ids, api_key)
 upcoming_broadcasts        = json.load(urllib.request.urlopen(upcoming_broadcasts_url))
 
-# for some reason the API returns results for eventType=upcoming which were already broadcast
-# the next line filters out these results
+# For some reason the API returns results for eventType=upcoming which were already broadcast. The
+# next line filters out these results
 upcoming_broadcasts        = [broadcast for broadcast in upcoming_broadcasts['items'] if 'actualStartTime' not in broadcast['liveStreamingDetails']]
 upcoming_broadcasts_sorted = sorted(upcoming_broadcasts, key=lambda k: k['liveStreamingDetails']['scheduledStartTime'])
 first_upcoming_broadcast   = upcoming_broadcasts_sorted[0]
 
-# get info on next planned broadcast
+# Get info on next planned broadcast
 first_upcoming_broadcast_details_url = 'https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id={}&key={}'.format(first_upcoming_broadcast['id'], api_key)
 first_upcoming_broadcast_details     = json.load(urllib.request.urlopen(first_upcoming_broadcast_details_url))
 first_upcoming_broadcast_name        = first_upcoming_broadcast_details['items'][0]['snippet']['title']
 first_upcoming_broadcast_start_time  = dt.datetime.strptime(first_upcoming_broadcast['liveStreamingDetails']['scheduledStartTime'], '%Y-%m-%dT%H:%M:%S%z')
 
-# check if start time of next broadcast is within the default margin of 45 minutes ago
+# Check if start time of next broadcast is within the configured margin (specified in minutes)
 now = dt.datetime.now(tz=dt.timezone.utc)
 margin = dt.timedelta(minutes=time_margin)
 start_time_ok = now - margin <= first_upcoming_broadcast_start_time <= now + margin
 
-# define the window
+# Define the window
 bg_color = 'green' if start_time_ok else 'red'
 layout = [
     [sg.Text(key='expand_top', background_color=bg_color)],
@@ -86,14 +88,14 @@ sg.set_options(background_color=bg_color)
 window = sg.Window('Window', layout, finalize=True, resizable=resizable_screen,
                    text_justification='center', element_justification='center')
 
-# ugly hack to center the text (see https://github.com/PySimpleGUI/PySimpleGUI/issues/3630)
+# Ugly hack to center the text (see https://github.com/PySimpleGUI/PySimpleGUI/issues/3630)
 window['expand_top'].expand(True, True, True)
 window['expand_bottom'].expand(True, True, True)
 
-# maximize the window
+# Maximize the window
 window.maximize()
 
-# show window
+# Show window
 while True:
     event, values = window.read(timeout=500)
     if not start_time_ok:
