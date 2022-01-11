@@ -30,7 +30,7 @@ To aid the operator of the Atem (in our case a busy priest, sacristan, acolyte, 
 
 ## Installation
 
-Provide values for `channel_id` and `api_key` variables in `sbsc.py`, then run the script.
+Provide values for the variables in `config.json`, then run the script (e.g. with `./sbsc.py`).
 
 ## See also
 
