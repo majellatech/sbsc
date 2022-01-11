@@ -26,7 +26,6 @@ api_key = conf.get("api_key")
 resizable_screen = conf.get("resizable_screen")
 timeout = conf.get("timeout")
 time_margin = conf.get("time_margin")
-refresh_interval = conf.get("refresh_interval")
 
 # wait until the system time is synced via NTP
 while True:
@@ -34,7 +33,7 @@ while True:
     if ntp_synchronisatie_voltooid:
         break
     else:
-        time.sleep(refresh_interval)
+        time.sleep(1)
 
 # Wait until internet connection is active
 while True:
@@ -43,7 +42,7 @@ while True:
         break
     except urllib.error.URLError as e:
         print(e.reason)
-        time.sleep(refresh_interval)
+        time.sleep(1)
 
 os.chdir(sys.path[0])
 

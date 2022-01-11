@@ -3,6 +3,5 @@
   "api_key": "",
   "resizable_screen": "True",
   "timeout": 500,
-  "time_margin": 60,
-  "refresh_interval": 1
+  "time_margin": 60
 }
