@@ -24,7 +24,6 @@ with open("config.json") as config_file:
 channel_id = conf.get("channel_id")
 api_key = conf.get("api_key")
 resizable_screen = conf.get("resizable_screen")
-timeout = conf.get("timeout")
 time_margin = conf.get("time_margin")
 
 # wait until the system time is synced via NTP
@@ -96,7 +95,7 @@ window.maximize()
 
 # show window
 while True:
-    event, values = window.read(timeout=timeout)
+    event, values = window.read(timeout=500)
     if not start_time_ok:
         window['image'].update_animation('images/warning.gif')
     if event == 'Sluiten':

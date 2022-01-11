@@ -2,6 +2,5 @@
   "channel_id": "",
   "api_key": "",
   "resizable_screen": "True",
-  "timeout": 500,
   "time_margin": 60
 }
