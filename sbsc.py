@@ -16,11 +16,10 @@ import datetime as dt
 import os
 import sys
 import time
-from Configuration import Configuration
 
-
-conf = Configuration()
-conf.load_json("./config.json")
+# Load configuration variables
+with open("config.json") as config_file:
+    conf = json.load(config_file)
 
 channel_id = conf.get("channel_id")
 api_key = conf.get("api_key")
