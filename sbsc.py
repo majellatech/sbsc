@@ -23,8 +23,8 @@ import time
 with open("config.json") as config_file:
     conf = json.load(config_file)
 
-channel_id = conf.get("channel_id")
-api_key = conf.get("api_key")
+channel_id  = conf.get("channel_id")
+api_key     = conf.get("api_key")
 fullscreen  = conf.get("fullscreen")
 time_margin = conf.get("time_margin")
 
