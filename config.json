@@ -1,6 +1,6 @@
 {
   "channel_id": "",
   "api_key": "",
-  "resizable_screen": "True",
+  "fullscreen": false,
   "time_margin": 60
 }

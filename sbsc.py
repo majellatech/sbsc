@@ -25,7 +25,7 @@ with open("config.json") as config_file:
 
 channel_id = conf.get("channel_id")
 api_key = conf.get("api_key")
-resizable_screen = conf.get("resizable_screen")
+fullscreen  = conf.get("fullscreen")
 time_margin = conf.get("time_margin")
 
 # Wait until the system time is synced via NTP
@@ -85,7 +85,7 @@ layout = [
     [sg.Text(key='expand_bottom', background_color=bg_color)]
 ]
 sg.set_options(background_color=bg_color)
-window = sg.Window('Window', layout, finalize=True, resizable=resizable_screen,
+window = sg.Window('Window', layout, finalize=True, resizable=False,
                    text_justification='center', element_justification='center')
 
 # Ugly hack to center the text (see https://github.com/PySimpleGUI/PySimpleGUI/issues/3630)
@@ -93,7 +93,8 @@ window['expand_top'].expand(True, True, True)
 window['expand_bottom'].expand(True, True, True)
 
 # Maximize the window
-window.maximize()
+if fullscreen:
+    window.maximize()
 
 # Show window
 while True:
