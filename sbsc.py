@@ -28,8 +28,6 @@ resizable_screen = conf.get("resizable_screen")
 timeout = conf.get("timeout")
 time_margin = conf.get("time_margin")
 refresh_interval = conf.get("refresh_interval")
-google_apis_videos_url = conf.get("google_apis_videos_url")
-google_apis_search_url = conf.get("google_apis_search_url")
 
 # wait until the system time is synced via NTP
 while True:
@@ -51,12 +49,12 @@ while True:
 os.chdir(sys.path[0])
 
 # fetch a list of video ids of planned broadcasts
-upcoming_broadcasts_list_url = google_apis_search_url + '?part=id&channelId={}&eventType=upcoming&maxResults=1000&order=date&type=video&key={}'.format(channel_id, api_key)
+upcoming_broadcasts_list_url = 'https://youtube.googleapis.com/youtube/v3/search?part=id&channelId={}&eventType=upcoming&maxResults=1000&order=date&type=video&key={}'.format(channel_id, api_key)
 upcoming_broadcasts_list     = json.load(urllib.request.urlopen(upcoming_broadcasts_list_url))
 upcoming_broadcast_ids       = video_ids = ','.join(list(map(lambda x: x['id']['videoId'], upcoming_broadcasts_list['items'])))
 
 # determine next planned broadcast
-upcoming_broadcasts_url    = google_apis_videos_url + '?part=liveStreamingDetails&id={}&key={}'.format(upcoming_broadcast_ids, api_key)
+upcoming_broadcasts_url    = 'https://youtube.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id={}&key={}'.format(upcoming_broadcast_ids, api_key)
 upcoming_broadcasts        = json.load(urllib.request.urlopen(upcoming_broadcasts_url))
 
 # for some reason the API returns results for eventType=upcoming which were already broadcast
@@ -66,7 +64,7 @@ upcoming_broadcasts_sorted = sorted(upcoming_broadcasts, key=lambda k: k['liveSt
 first_upcoming_broadcast   = upcoming_broadcasts_sorted[0]
 
 # get info on next planned broadcast
-first_upcoming_broadcast_details_url = google_apis_videos_url + '?part=snippet&id={}&key={}'.format(first_upcoming_broadcast['id'], api_key)
+first_upcoming_broadcast_details_url = 'https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id={}&key={}'.format(first_upcoming_broadcast['id'], api_key)
 first_upcoming_broadcast_details     = json.load(urllib.request.urlopen(first_upcoming_broadcast_details_url))
 first_upcoming_broadcast_name        = first_upcoming_broadcast_details['items'][0]['snippet']['title']
 first_upcoming_broadcast_start_time  = dt.datetime.strptime(first_upcoming_broadcast['liveStreamingDetails']['scheduledStartTime'], '%Y-%m-%dT%H:%M:%S%z')
