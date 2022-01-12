@@ -25,23 +25,6 @@ api_key     = conf.get("api_key")
 fullscreen  = conf.get("fullscreen")
 time_margin = conf.get("time_margin")
 
-# Wait until the system time is synced via NTP
-while True:
-    ntp_synchronisatie_voltooid = os.system('timedatectl | grep System\ clock\ synchronized | grep -q yes') == 0
-    if ntp_synchronisatie_voltooid:
-        break
-    else:
-        time.sleep(1)
-
-# Wait until internet connection is active
-while True:
-    try:
-        urllib.request.urlopen('http://google.com')
-        break
-    except urllib.error.URLError as e:
-        print(e.reason)
-        time.sleep(1)
-
 os.chdir(sys.path[0])
 
 # Fetch a list of video ids of planned broadcasts
