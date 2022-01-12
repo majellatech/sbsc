@@ -7,9 +7,6 @@
     one twice.
 """
 
-# TODO: handle cases where there were no planned broadcasts in the first place
-
-
 import urllib.request
 import urllib.error
 import json
