@@ -16,6 +16,9 @@ import os
 import sys
 import time
 
+# Change working directory to directory of this script
+os.chdir(sys.path[0])
+
 # Load configuration variables
 with open("config.json") as config_file:
     conf = json.load(config_file)
@@ -41,8 +44,6 @@ while True:
     except urllib.error.URLError as e:
         print(e.reason)
         time.sleep(1)
-
-os.chdir(sys.path[0])
 
 # Fetch a list of video ids of planned broadcasts
 upcoming_broadcasts_list_url = 'https://youtube.googleapis.com/youtube/v3/search?part=id&channelId={}&eventType=upcoming&maxResults=1000&order=date&type=video&key={}'.format(channel_id, api_key)
